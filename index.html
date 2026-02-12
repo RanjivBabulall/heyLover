@@ -1,0 +1,221 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Will you be my Valentine's?</title>
+
+        <style>
+            
+            body {
+                margin: 0;
+                height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background: linear-gradient(135deg, #ff9ecf, #ff6f91, #ffc3e3);
+                background-size: 400% 400%;
+                animation: gradientMove 10s east infinite;
+                font-family: 'RusticRoadway', cursive;
+                overflow: hidden;
+            }
+
+            @font-face{
+                font-family: 'RusticRoadway';
+                src: url('RusticRoadway.otf') format('opentype');
+            }
+            @keyframes gradientMove {
+                0% { background-position: 0% 50%}
+                50% {background-position: 100% 50%}
+                100% {background-position: 0% 50%}
+            }
+
+            .loading-screen{
+                position:absolute;
+                color:white;
+                font-size: 24px;
+                text-align: center;
+                animation: fadeIn 1s ease forwards;
+            }
+
+            .loading-text {
+                opacity: 0;
+                animation: fadeText 1s ease forwards;
+            }
+
+            @keyframes fadeText {
+                from {opacity: 0; transform: translateY(20px);}
+
+                to {opacity: 1; transform: translateY(0);}
+            }
+
+            @keyframes fadeOut {
+                to {opacity: 0; visibility: hidden;}
+            }
+            @keyframes fadeIn {
+                from {opacity: 0;}
+                to {opacity: 1;}
+            }
+            .card{
+                background: linear-gradient(135deg, #ff9ecf, #ff6f91, #ffc3e3);
+                padding: 40px;
+                border-radius: 20px;
+                text-align: center;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+                position: relative;
+                z-index: 2;
+                display: none;
+                animation: fadeIn 1.5s ease forwards;
+            }
+
+            h1 {
+                color: #041188;
+                margin-bottom: 30px;
+                font-family: 'RusticRoadway', cursive;
+            }
+
+            button {
+                padding: 12px 25px;
+                margin: 10px;
+                border: none;
+                border-radius: 25px;
+                font-size: 16px;
+                cursor: pointer;
+                transition: 0.3s;
+                font-weight: bold;
+                letter-spacing: 0.5px;
+
+            }
+
+            #yes {
+                background-color: #444;
+                color: white;
+                box-shadow: 0 5px 15px rgba(255, 79, 129, 0.4);
+            
+            }
+
+            #yes:hover {
+                transform: scale(1.15);
+                box-shadow: 0 10px 25px rgba(255, 79, 129, 0.6);
+            }
+            #no {
+                background-color: #444;
+                color: white;
+                
+            }
+
+            #duh {
+                background-color: #444;
+                color: white;
+            }
+            
+            .heart {
+                position: absolute;
+                color: white;
+                font-size: 20px;
+                animation: float 6s linear infinite;
+            }
+
+            @keyframes float {
+                from {
+                    transform: translateY(100vh);
+                    opacity: 1;
+                }
+                to {
+                    transform: translateY(-10vh);
+                    opacity: 0;
+                }
+            }
+
+            
+        </style>
+    </head>
+    <body>
+
+        <div class = "loading-screen" id="loading">
+            <div class = "loading-text" id = "text1">Initializing love...</div>
+        </div>
+        
+        <div class="card" id="card">
+            <h1>Will you be my Valentine?</h1>
+            <button id="yes" onclick="yesClicked()">Duh</button>
+            <button id="duh" onmouseover="moveButton(this)">Yes</button>
+            <button id="no" onmouseover="moveButton(this)">No</button>
+
+            
+            
+        </div>
+
+        <script>
+            const loading = document.getElementById("loading");
+            const card = document.getElementById("card");
+            const text1 = document.getElementById("text1");
+
+            setTimeout(() => {
+                text1.innerText = "Determining if I love you twice as more..."
+                text1.style.animation = "fadeText 1s ease forwards";
+            }, 2000);
+
+            setTimeout (() => {
+                text1.innerText = "Processing...";
+                text1.style.animation = "fadeText 1s ease forwards";
+            }, 4000);
+
+            setTimeout (() => {
+                text1.innerText = "Yes I do...";
+                text1.style.animation = "fadeText 1s ease forwards";
+            }, 6000);
+
+            setTimeout(() => {
+                loading.style.animation = "fadeOut 1s forwards";
+                card.style.display = "block";
+            }, 8000)
+
+            function yesClicked(){
+                document.body.innerHTML = `<div style="display:flex;justify-content:center;align-items:center;height:100vh;font-family: 'RusticRoadway', cursive;;color:white;text-align:center;">
+                <div>
+                    <h1>WOO!!!</h1>
+                    <h2>I love you so much ❤️</h2>
+                </div>
+            </div>
+            `;
+        }
+
+        function moveButton(button){
+        const card = document.getElementById("card");
+        const cardRect = card.getBoundingClientRect();
+
+        const buttonWidth = button.offsetWidth;
+        const buttonHeight = button.offsetHeight;
+
+        const maxX = cardRect.width - buttonWidth;
+        const maxY = cardRect.height - buttonHeight;
+
+        const randomX = Math.random() * maxX;
+        const randomY = Math.random() * maxY;
+
+        button.style.position = "absolute";
+        button.style.left = randomX + "px";
+        button.style.top = randomY + "px";
+    }
+
+
+
+        setInterval(() => {
+            const heart = document.createElement("div");
+            heart.classList.add("heart");
+            heart.innerHTML = "❤️";
+            heart.style.left = Math.random() * window.innerWidth + "px";
+            heart.style.fontSize = (Math.random() * 20 + 10) + "px";
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 6000)
+        }, 300);
+            
+
+        </script>
+
+    </body>
+    </html>
